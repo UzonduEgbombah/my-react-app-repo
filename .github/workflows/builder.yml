@@ -41,7 +41,7 @@ jobs:
         run: echo "::set-output name=uri::$(echo $AWS_SECRET_ACCESS_KEY | aws ecr create-repository --repository-name my-react-repo --output json | jq -r '.repository.repositoryUri')"
 
     - name: Login to ECR
-        run: echo $AWS_SECRET_ACCESS_KEY | docker login -u AWS --password-stdin ***.dkr.ecr.us-east-1.amazonaws.com/my-react-repo
+         run: echo $AWS_SECRET_ACCESS_KEY | docker login -u AWS --password-stdin ***.dkr.ecr.us-east-1.amazonaws.com/my-react-repo --no-include-email
 
     - name: Tag Docker image
         run: docker build -t ***.dkr.ecr.us-east-1.amazonaws.com/my-react-repo:latest .
