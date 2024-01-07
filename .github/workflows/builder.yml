@@ -36,6 +36,9 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
+    - name: Check AWS CLI version
+        run: aws --version
+
     - name: Create ECR repository URI
          id: ecr
         run: echo "::set-output name=uri::$(echo $AWS_SECRET_ACCESS_KEY | aws ecr create-repository --repository-name my-react-repo --output json | jq -r '.repository.repositoryUri')"
