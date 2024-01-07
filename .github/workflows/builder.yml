@@ -37,14 +37,15 @@ jobs:
         aws-region: us-east-1
 
     - name: Create ECR repository URI
-      id: ecr
-      run: echo "::set-output name=uri::$(aws ecr create-repository --repository-name my-react-repo --output json | jq -r '.repository.repositoryUri')"
+         id: ecr
+        run: echo "::set-output name=uri::$(echo $AWS_SECRET_ACCESS_KEY | aws ecr create-repository --repository-name my-react-repo --output json | jq -r '.repository.repositoryUri')"
 
     - name: Login to ECR
-      run: aws ecr get-login-password --region your-aws-region | docker login --username AWS --password-stdin ${{ steps.ecr.outputs.uri }}
+        run: echo $AWS_SECRET_ACCESS_KEY | docker login -u AWS --password-stdin ***.dkr.ecr.us-east-1.amazonaws.com/my-react-repo
 
     - name: Tag Docker image
-      run: docker build -t ${{ steps.ecr.outputs.uri }}:latest .
-    
+        run: docker build -t ***.dkr.ecr.us-east-1.amazonaws.com/my-react-repo:latest .
+
     - name: Push Docker image to ECR
-      run: docker push ${{ steps.ecr.outputs.uri }}:latest
+        run: docker push ***.dkr.ecr.us-east-1.amazonaws.com/my-react-repo:latest
+
