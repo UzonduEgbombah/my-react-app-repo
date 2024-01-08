@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+awscli-bundle.zip
+awscliv2.zip
+awscli-bundle
 
 # testing
 /coverage
