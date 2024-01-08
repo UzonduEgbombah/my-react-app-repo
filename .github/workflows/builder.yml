@@ -53,4 +53,3 @@ jobs:
 
     - name: Push Docker image to ECR
       run: docker push $(echo ${{ steps.ecr.outputs.uri }}):latest
-
