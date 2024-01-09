@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-push-to-ecr:
+    name: Build and Push to ECR
     runs-on: ubuntu-latest
 
     steps:
@@ -24,11 +25,6 @@ jobs:
     - name: Build React app
       run: npm run build
 
-  push-to-ecr:
-  needs: build
-  runs-on: ubuntu-latest
-
-  steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -36,20 +32,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Check AWS CLI version
-      run: aws --version
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Create ECR repository URI
-      id: ecr
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: my-react-app-repository
+        IMAGE_TAG: latest
       run: |
-        echo "::set-output name=uri::$(aws ecr create-repository --repository-name my-react-repo --output json | jq -r '.repository.repositoryUri')"
-
-    - name: Login to ECR
-      run: |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $(echo ${{ steps.ecr.outputs.uri }} | cut -d '/' -f 1)
-
-    - name: Tag Docker image
-      run: docker build -t $(echo ${{ steps.ecr.outputs.uri }}):latest .
-
-    - name: Push Docker image to ECR
-      run: docker push $(echo ${{ steps.ecr.outputs.uri }}):latest
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
