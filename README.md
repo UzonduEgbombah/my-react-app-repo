@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# Automation And Deployment With, Github-Action And Agro-cd
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Architecture Overview:
+Source Code Management (SCM):
 
-## Available Scripts
+Use GitHub as your source code repository to host the React application.
+Continuous Integration (CI):
 
-In the project directory, you can run:
 
-### `npm start`
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/a0f3875a-3888-40d6-b850-a03cfd6fd4af)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Leverage GitHub Actions for the CI pipeline to build and push the Docker image to AWS ECR.
+Container Registry:
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/274cf8e3-84c7-473b-aa16-91f3d861db11)
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Utilize AWS Elastic Container Registry (ECR) to store the Docker images.
+Continuous Deployment (CD):
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Implement AgroCD for continuous deployment to the Minikube cluster.
+Detailed Steps:
 
-### `npm run eject`
+- Source Code Management (GitHub):
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Host your React application on GitHub.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Continuous Integration (GitHub Actions):
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create a dedicated GitHub Actions workflow (e.g., .github/workflows/build.yaml) for CI.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Workflow Steps:
 
-## Learn More
+- Checkout the source code.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Set up Node.js environment.
+  
+- Install dependencies and build the React application.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Authenticate with AWS ECR using secrets.
 
-### Code Splitting
+- Build the Docker image.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Push the Docker image to AWS ECR.
 
-### Analyzing the Bundle Size
+- Ensure that the GitHub Actions workflow is triggered on pushes to the main branch.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/ed0dc98b-379e-466c-95f6-ca8f95688428)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/f3abc5ed-78f8-465f-b0f5-0cf3c619d0a6)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+ Container Registry (AWS ECR):
+Create an AWS ECR repository to store Docker images.
 
-### Deployment
+Configure GitHub Actions to use AWS credentials stored as secrets for authentication during the Docker image push.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/c06e2935-1bd5-4c44-86fd-a73cffbfac95)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+#### Continuous Deployment (AgroCD):
+
+-Install and configure AgroCD on Minikube by following the official documentation.
+
+- Create a repository configuration in AgroCD pointing to the GitHub repository.
+
+- Set up a synchronization trigger in AgroCD to watch for changes in the GitHub repository.
+
+Minikube Cluster:
+Ensure Minikube is properly installed and started.
+
+AgroCD will synchronize with the Minikube cluster, applying changes automatically when triggered.
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/e09d5d85-cb62-4dca-b268-0fa8f95b6f1d)
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/9f1aabc9-ac69-42fe-b4d9-23fef4f6707c)
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/2f155585-e71d-4b30-8b2e-bb7f0eb471cc)
+
+
+Install agrocd in minikube and port-forward to access the gui via localhost:8080
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/9fbbfd34-0425-4e22-81ce-a3e99e3d27ef)
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/468fd090-844e-4ee1-a7ce-8b5392d1fa49)
+
+
+In your agro-cd navigate to create new app and fill in all the neccesary details which include , App name, Repo-url, Cluster-url, Namespace etc
+- after tap on create 
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/ce2c4780-b3a7-43cf-b62d-ad8cf350f318)
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/cbc37a18-73e5-45e7-93dc-7519fff6f089)
+
+Allow the cluster to access the ecr 
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/869f7de1-95e8-4926-886e-e75746b01a06)
+
+
+- navigate to synch and enter
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/9c4f7e5d-8206-4403-8c0f-6757c90310c9)
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/29da9db0-6b7f-44a1-89d9-5c1007f6fa41)
+
+
+Deployment Healthy and Running
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/e2e66745-383d-46f6-bc0e-688e070b4df8)
+
+
+![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/ee946362-3506-4853-b472-1ca60a424430)
+
+
+
+
+
+
+
+
+
