@@ -1,4 +1,4 @@
-# Automation And Deployment With, Github-Action And Agro-cd
+# Automation And Deployment With Github-Action And Agro-cd
 
 Architecture Overview:
 Source Code Management (SCM):
@@ -10,9 +10,7 @@ Continuous Integration (CI):
 ![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/a0f3875a-3888-40d6-b850-a03cfd6fd4af)
 
 
-Leverage GitHub Actions for the CI pipeline to build and push the Docker image to AWS ECR.
-Container Registry:
-
+DockerFile
 
 ![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/274cf8e3-84c7-473b-aa16-91f3d861db11)
 
@@ -54,7 +52,8 @@ Workflow Steps:
 ![](https://github.com/UzonduEgbombah/my-react-app-repo/assets/137091610/f3abc5ed-78f8-465f-b0f5-0cf3c619d0a6)
 
 
- Container Registry (AWS ECR):
+Container Registry (AWS ECR):
+
 Create an AWS ECR repository to store Docker images.
 
 Configure GitHub Actions to use AWS credentials stored as secrets for authentication during the Docker image push.
